@@ -253,6 +253,7 @@ Parameter | Description
 --------- | -----------
 limit | Limit number of results (optional)
 offset | Offset to start listing results (optional)
+recursive | Boolean flag to recurse child disciplines (default false)
 
 ## Get Taxonomy
 
@@ -327,17 +328,7 @@ id | ID of taxonomy
 
 ## Delete Taxonomy
 
-```shell
-curl -X DELETE "https://chroniclevitae.com/api/taxonomy/3045"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-
-```
-
-This endpoint retrieves account data for the authenticated user.
+This endpoint deletes the specified taxonomy item.
 
 ### HTTP Request
 
@@ -345,6 +336,12 @@ This endpoint retrieves account data for the authenticated user.
 
 <aside class="success">
 Successful requests will return HTTP status 204
+</aside>
+<aside class="warning">
+Taxonomies with associated users as well as top level taxonomies with child taxonomies cannot be deleted and will return HTTP status 422
+</aside>
+<aside class="warning">
+When deleting a mid-level taxonomy that has child taxonomies those children will be reassigned to the parent of the deleted taxonomy
 </aside>
 
 ### DELETE Parameters
@@ -356,20 +353,52 @@ id | ID of taxonomy to delete
 ## Create Taxonomy
 
 ```shell
-curl -X POST -d "discipline[name]=" https://chroniclevitae.com/api/taxonomy"
+curl -X POST -d "discipline[name]=Ancient studies" -d "discipline[status]=accepted" -d "discipline[parent_relation][parent_discipline_id]=2" -d "discipline[child_relation][children][]=3033" "https://chroniclevitae.com/api/taxonomy"
 ```
 
-> The above command returns JSON structured like this:
+> The above command will create a new taxonomy called 'Ancient studies' with parent/child relationships. A valid request returns JSON structured like this:
 
 ```json
-
+{
+    "href": "https://chroniclevitae.com/api/taxonomy",
+    "results": [
+        {
+            "canonical_discipline_id": null,
+            "child_disciplines": [
+                {
+                    "canonical_discipline_id": null,
+                    "id": 3033,
+                    "name": "Egyptian hieroglyphics",
+                    "status": "accepted"
+                }
+            ],
+            "id": 3036,
+            "name": "Ancient studies",
+            "parent_discipline": {
+                "canonical_discipline_id": null,
+                "id": 2,
+                "name": "Anthropology",
+                "status": "accepted"
+            },
+            "status": "accepted"
+        }
+    ],
+    "status": 200
+}
 ```
 
-This endpoint retrieves account data for the authenticated user.
+This endpoint creates a new taxonomy entry with parent/child relationships (if specified).
 
 ### HTTP Request
 
 `POST https://chroniclevitae.com/api/taxonomy`
+
+<aside class="success">
+Successful requests will return HTTP status 200
+</aside>
+<aside class="warning">
+Taxonomy name must be unique. An HTTP 422 will be returned if a taxonomy with the specified name already exists.
+</aside>
 
 ### POST Parameters
 
@@ -380,25 +409,58 @@ discipline[canonical_discipline_id] | ID of canonical taxonomy (optional)
 discipline[status] | Taxonomy status (optional)
 discipline[parent_relation][parent_discipline_id] | ID of parent taxonomy (optional)
 discipline[child_relation][inherit_children_from] | Inherit child taxonomies from specified taxonomy id (optional)
-discipline[child_relation][children][] | List of child taxonomies (optional)
+discipline[child_relation][children][] | List of child taxonomy IDs (optional)
 
 ## Update Taxonomy
 
 ```shell
-curl -X PUT -d "id=3000" "https://chroniclevitae.com/api/taxonomy"
+curl -X PUT -d "discipline[name]=Ancient anthropology" "https://chroniclevitae.com/api/taxonomy/3036"
 ```
 
-> The above command returns JSON structured like this:
+> The above command attempts to update the taxonomy entry's name from 'Ancient studies' to 'Ancient anthropology'. A valid request returns JSON structured like this:
 
 ```json
+{
+    "href": "http://127.0.0.1:3000/api/taxonomy/3036",
+    "results": [
+        {
+            "canonical_discipline_id": null,
+            "child_disciplines": [
+                {
+                    "canonical_discipline_id": null,
+                    "id": 3033,
+                    "name": "Egyptian hieroglyphics",
+                    "status": "pending"
+                }
+            ],
+            "id": 3048,
+            "name": "Ancient anthropology",
+            "parent_discipline": {
+                "canonical_discipline_id": null,
+                "id": 2,
+                "name": "Anthropology",
+                "status": "accepted"
+            },
+            "status": "accepted"
+        }
+    ],
+    "status": 200
+}
 
 ```
 
-This endpoint retrieves account data for the authenticated user.
+This endpoint updates an existing taxonomy according to the attributes specified.
 
 ### HTTP Request
 
 `PUT https://chroniclevitae.com/api/taxonomy`
+
+<aside class="success">
+Successful requests will return HTTP status 200
+</aside>
+<aside class="warning">
+When renaming, a new taxonomy entry will be created under the new name (or existing taxonomy if such exists) and the existing taxonomy will have a canonical reference to the new term.
+</aside>
 
 ### PUT Parameters
 
@@ -409,4 +471,4 @@ discipline[canonical_discipline_id] | ID of canonical taxonomy (optional)
 discipline[status] | Taxonomy status (optional)
 discipline[parent_relation][parent_discipline_id] | ID of parent taxonomy (optional)
 discipline[child_relation][inherit_children_from] | Inherit child taxonomies from specified taxonomy id (optional)
-discipline[child_relation][children][] | List of child taxonomies (optional)
+discipline[child_relation][children][] | List of child taxonomy IDs (optional)
