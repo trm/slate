@@ -146,7 +146,7 @@ This endpoint retrieves account data for the authenticated user.
 `GET https://chroniclevitae.com/api/users/self`
 
 <aside class="success">
-Remember — users must first authenticate their accounts!
+Successful requests will return HTTP status 200
 </aside>
 
 # Dossier
@@ -320,6 +320,10 @@ This endpoint retrieves a list of all dossier documents for the authenticated us
 
 `GET https://chroniclevitae.com/api/dossier/self`
 
+<aside class="success">
+Successful requests will return HTTP status 200
+</aside>
+
 # Documents
 
 ## Download a Document
@@ -330,10 +334,13 @@ This endpoint downloads a raw document from the user's dossier list
 curl "https://chroniclevitae.com/api/documents/<id>/download?access_token=<access_token>"
 ```
 
-
 ### HTTP Request
 
 `GET https://chroniclevitae.com/api/documents/<id>/download?access_token=<access_token>`
+
+<aside class="success">
+Successful requests will return HTTP status 200
+</aside>
 
 ### URL Parameters
 
@@ -372,6 +379,10 @@ curl --form "document=@My_File_Upload.docx" --form "folder=9927" "https://chroni
 ### HTTP Request
 
 `POST https://chroniclevitae.com/api/documents/upload?access_token=<access_token>`
+
+<aside class="success">
+Successful requests will return HTTP status 201
+</aside>
 
 ### POST Parameters
 
@@ -419,6 +430,9 @@ curl "https://chroniclevitae.com/api/recommendation_letters?access_token=<access
 
 `GET https://chroniclevitae.com/api/recommendation_letters?access_token=<access_token>`
 
+<aside class="success">
+Successful requests will return HTTP status 200
+</aside>
 
 ## Download Recommendation Letter
 
@@ -431,6 +445,10 @@ curl "https://chroniclevitae.com/api/recommendation_letters/<id>/download?access
 ### HTTP Request
 
 `POST https://chroniclevitae.com/api/recommendation_letters/<id>/download?access_token=<access_token>`
+
+<aside class="success">
+Successful requests will return HTTP status 200
+</aside>
 
 ### URL Parameters
 
