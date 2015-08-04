@@ -12,7 +12,42 @@ search: true
 
 # Introduction
 
-Welcome to ChronicleVitae's internal API documentation.
+Welcome to ChronicleVitae's internal API documentation. This API is accessing back-end services and is not available for public consumption.
+
+# Authentication
+
+All requests must include an access token which can be obtained via a 2-legged oAuth request.
+
+```shell
+curl -X POST -d "grant_type=client_credentials" -d "client_id=<client_id>" -d "client_secret=<client_secret>" https://chroniclevitae.com/oauth/token
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "access_token": "02c6863c7d088bceb5f000079a3960b5deee4c2e34fef4849a826a3434f78dcb",
+    "created_at": 1438718376,
+    "expires_in": 43200,
+    "token_type": "bearer"
+}
+```
+
+### HTTP Request
+
+`POST https://chroniclevitae.com/oauth/token`
+
+<aside class="warning">
+You must first obtain an API client key along with your secret token in order to authenticate.
+</aside>
+
+### POST Parameters
+
+Parameter | Description
+--------- | -----------
+grant_type | client_credentials
+client_id | API client key
+client_secret | API secret token
 
 # Taxonomy
 
