@@ -19,7 +19,7 @@ Welcome to ChronicleVitae's internal API documentation. This API is accessing ba
 All requests must include an access token which can be obtained via a 2-legged oAuth request.
 
 ```shell
-curl -X POST -d "grant_type=client_credentials" -d "client_id=<client_id>" -d "client_secret=<client_secret>" https://chroniclevitae.com/oauth/token
+curl -X POST -d "grant_type=client_credentials" -d "client_id=<client_id>" -d "client_secret=<client_secret>" https://chroniclevitae.com/oauth/token?grant_type=client_credentials
 ```
 
 > The above command returns JSON structured like this:
@@ -35,7 +35,7 @@ curl -X POST -d "grant_type=client_credentials" -d "client_id=<client_id>" -d "c
 
 ### HTTP Request
 
-`POST https://chroniclevitae.com/oauth/token`
+`POST https://chroniclevitae.com/oauth/token?grant_type=client_credentials`
 
 <aside class="warning">
 You must first obtain an API client key along with your secret token in order to authenticate.
@@ -45,7 +45,6 @@ You must first obtain an API client key along with your secret token in order to
 
 Parameter | Description
 --------- | -----------
-grant_type | client_credentials
 client_id | API client key
 client_secret | API secret token
 
