@@ -123,10 +123,10 @@ curl "https://chroniclevitae.com/api/users/self"
                     "email_address": "jbruns123@chronicle.com",
                     "phone_number": "410-555-6658",
                     "relationship": "Manager",
-                    "address_1": "1355 14th Street, NW"
+                    "address_1": "1355 14th Street, NW",
                     "address_2": "STE 455",
                     "city": "Washington",
-                    "state": "DC"
+                    "state": "DC",
                     "zip_code": "20022"
                 }
             ],
