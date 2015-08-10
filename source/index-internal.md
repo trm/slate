@@ -63,6 +63,8 @@ curl "https://chroniclevitae.com/api/taxonomy?limit=10&offset=5"
     "href": "https://chroniclevitae.com/api/taxonomy?limit=10&offset=5",
     "results": [
         {
+            "canonical_children": 0,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [],
             "id": 6,
@@ -126,6 +128,8 @@ curl "https://chroniclevitae.com/api/taxonomy?limit=10&offset=5"
             "status": "accepted"
         },
         {
+            "canonical_children": 0,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [],
             "id": 8,
@@ -139,6 +143,8 @@ curl "https://chroniclevitae.com/api/taxonomy?limit=10&offset=5"
             "status": "accepted"
         },
         {
+            "canonical_children": 0,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [],
             "id": 9,
@@ -152,6 +158,8 @@ curl "https://chroniclevitae.com/api/taxonomy?limit=10&offset=5"
             "status": "accepted"
         },
         {
+            "canonical_children": 0,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [],
             "id": 10,
@@ -165,6 +173,8 @@ curl "https://chroniclevitae.com/api/taxonomy?limit=10&offset=5"
             "status": "accepted"
         },
         {
+            "canonical_children": 0,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [],
             "id": 11,
@@ -178,6 +188,8 @@ curl "https://chroniclevitae.com/api/taxonomy?limit=10&offset=5"
             "status": "accepted"
         },
         {
+            "canonical_children": 0,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [],
             "id": 12,
@@ -191,6 +203,8 @@ curl "https://chroniclevitae.com/api/taxonomy?limit=10&offset=5"
             "status": "accepted"
         },
         {
+            "canonical_children": 0,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [],
             "id": 13,
@@ -204,6 +218,8 @@ curl "https://chroniclevitae.com/api/taxonomy?limit=10&offset=5"
             "status": "accepted"
         },
         {
+            "canonical_children": 0,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [],
             "id": 14,
@@ -217,6 +233,8 @@ curl "https://chroniclevitae.com/api/taxonomy?limit=10&offset=5"
             "status": "accepted"
         },
         {
+            "canonical_children": 0,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [
                 {
@@ -302,6 +320,8 @@ curl "https://chroniclevitae.com/api/taxonomy/3"
     "href": "https://chroniclevitae.com/api/taxonomy/3",
     "results": [
         {
+            "canonical_children": 1,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [
                 {
@@ -359,6 +379,53 @@ Successful requests will return HTTP status 200
 Parameter | Description
 --------- | -----------
 id | ID of taxonomy
+recursive | Boolean flag to recurse child disciplines (default false)
+
+## Get Taxonomy Aliases
+
+```shell
+curl "https://chroniclevitae.com/api/taxonomy/3/alias"
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+    "href": "https://chroniclevitae.com/api/taxonomy/3/alias",
+    "results": [
+        {
+            "canonical_children": 0,
+            "total_users": 0,
+            "canonical_discipline_id": 3,
+            "child_disciplines": [],
+            "id": 2025,
+            "name": "History preservation studies",
+            "parent_discipline": null,
+            "status": "accepted"
+        }
+    ],
+    "status": 200
+}
+
+
+```
+
+This endpoint retrieves a listing of aliases and associations for the specified taxonomy.
+
+### HTTP Request
+
+`GET https://chroniclevitae.com/api/taxonomy/<id>/alias`
+
+<aside class="success">
+Successful requests will return HTTP status 200
+</aside>
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+id | ID of taxonomy
+recursive | Boolean flag to recurse child disciplines (default false)
 
 ## Delete Taxonomy
 
@@ -397,6 +464,8 @@ curl -X POST -d "discipline[name]=Ancient studies" -d "discipline[status]=accept
     "href": "https://chroniclevitae.com/api/taxonomy",
     "results": [
         {
+            "canonical_children": 0,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [
                 {
@@ -458,6 +527,8 @@ curl -X PUT -d "discipline[name]=Ancient anthropology" "https://chroniclevitae.c
     "href": "http://127.0.0.1:3000/api/taxonomy/3036",
     "results": [
         {
+            "canonical_children": 0,
+            "total_users": 0,
             "canonical_discipline_id": null,
             "child_disciplines": [
                 {
