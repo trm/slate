@@ -19,7 +19,7 @@ Welcome to ChronicleVitae's internal API documentation. This API is accessing ba
 All requests must include an access token which can be obtained via a 2-legged oAuth request.
 
 ```shell
-curl -X POST -d "grant_type=client_credentials" -d "client_id=<client_id>" -d "client_secret=<client_secret>" https://chroniclevitae.com/oauth/token?grant_type=client_credentials
+curl -X POST -d "grant_type=client_credentials" -d "client_id=<client_id>" -d "client_secret=<client_secret>" -d "scope=taxonomy" https://chroniclevitae.com/oauth/token?grant_type=client_credentials
 ```
 
 > The above command returns JSON structured like this:
@@ -29,7 +29,8 @@ curl -X POST -d "grant_type=client_credentials" -d "client_id=<client_id>" -d "c
     "access_token": "02c6863c7d088bceb5f000079a3960b5deee4c2e34fef4849a826a3434f78dcb",
     "created_at": 1438718376,
     "expires_in": 43200,
-    "token_type": "bearer"
+    "token_type": "bearer",
+    "scopes": "taxonomy"
 }
 ```
 
@@ -47,6 +48,7 @@ Parameter | Description
 --------- | -----------
 client_id | API client key
 client_secret | API secret token
+scope | Oauth scope <taxonomy>
 
 # Taxonomy
 
@@ -306,6 +308,7 @@ Parameter | Description
 limit | Limit number of results (optional)
 offset | Offset to start listing results (optional)
 recursive | Boolean flag to recurse child disciplines (default false)
+status | Limit results to only [approved] or [pending] terms (optional)
 
 ## Get Taxonomy
 
@@ -577,3 +580,4 @@ discipline[status] | Taxonomy status (optional)
 discipline[parent_relation][parent_discipline_id] | ID of parent taxonomy (optional)
 discipline[child_relation][inherit_children_from] | Inherit child taxonomies from specified taxonomy id (optional)
 discipline[child_relation][children][] | List of child taxonomy IDs (optional)
+force | Force an update to the existing term rather than create a new canonical term if users exist on term
