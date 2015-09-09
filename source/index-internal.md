@@ -39,7 +39,7 @@ curl -X POST -d "grant_type=client_credentials" -d "client_id=<client_id>" -d "c
 `POST https://chroniclevitae.com/oauth/token?grant_type=client_credentials`
 
 <aside class="warning">
-You must first obtain an API client key along with your secret token in order to authenticate.
+The taxonomy API is only available in version 2. All requests must include the header "Accept: application/vnd.vitae.v2"
 </aside>
 
 ### POST Parameters
