@@ -19,7 +19,9 @@ Welcome to ChronicleVitae's internal API documentation. This API is accessing ba
 All requests must include an access token which can be obtained via a 2-legged oAuth request.
 
 ```shell
-curl -X POST -d "grant_type=client_credentials" -d "client_id=<client_id>" -d "client_secret=<client_secret>" -d "scope=taxonomy" https://chroniclevitae.com/oauth/token?grant_type=client_credentials
+curl -X POST -d "grant_type=client_credentials" -d "client_id=<client_id>" \
+    -d "client_secret=<client_secret>" \
+    -d "scope=taxonomy" https://chroniclevitae.com/oauth/token?grant_type=client_credentials
 ```
 
 > The above command returns JSON structured like this:
@@ -52,7 +54,7 @@ scope | Oauth scope <taxonomy>
 
 # Taxonomy
 
-## Get All Taxonomies
+## List Taxonomies
 
 ```shell
 curl "https://chroniclevitae.com/api/taxonomy?limit=10&offset=5"
@@ -457,7 +459,8 @@ id | ID of taxonomy to delete
 ## Create Taxonomy
 
 ```shell
-curl -X POST -d "discipline[name]=Ancient studies" -d "discipline[status]=accepted" -d "discipline[parent_relation][parent_discipline_id]=2" -d "discipline[child_relation][children][]=3033" "https://chroniclevitae.com/api/taxonomy"
+curl -X POST -d "discipline[name]=Ancient studies" -d "discipline[status]=accepted" \
+    -d "discipline[parent_relation][parent_discipline_id]=2" "https://chroniclevitae.com/api/taxonomy"
 ```
 
 > The above command will create a new taxonomy called 'Ancient studies' with parent/child relationships. A valid request returns JSON structured like this:
@@ -514,16 +517,15 @@ discipline[name] | Taxonomy name
 discipline[canonical_discipline_id] | ID of canonical taxonomy (optional)
 discipline[status] | Taxonomy status (optional)
 discipline[parent_relation][parent_discipline_id] | ID of parent taxonomy (optional)
-discipline[child_relation][inherit_children_from] | Inherit child taxonomies from specified taxonomy id (optional)
-discipline[child_relation][children][] | List of child taxonomy IDs (optional)
+
 
 ## Update Taxonomy
 
 ```shell
-curl -X PUT -d "discipline[name]=Ancient anthropology" "https://chroniclevitae.com/api/taxonomy/3036"
+curl -X PUT -d "discipline[parent_relation][parent_discipline_id]=3048" -d "discipline[status]=accepted" https://chroniclevitae.com/api/taxonomy/3048"
 ```
 
-> The above command attempts to update the taxonomy entry's name from 'Ancient studies' to 'Ancient anthropology'. A valid request returns JSON structured like this:
+> The above command attempts to update the term's status from pending to accepted and change its parent discipline from 'Ancient studies' to 'Ancient anthropology'. A valid request returns JSON structured like this:
 
 ```json
 {
@@ -557,7 +559,7 @@ curl -X PUT -d "discipline[name]=Ancient anthropology" "https://chroniclevitae.c
 
 ```
 
-This endpoint updates an existing taxonomy according to the attributes specified.
+This endpoint is used to update attributes and relationships on an existing taxonomy.
 
 ### HTTP Request
 
@@ -565,9 +567,6 @@ This endpoint updates an existing taxonomy according to the attributes specified
 
 <aside class="success">
 Successful requests will return HTTP status 200
-</aside>
-<aside class="warning">
-When renaming, a new taxonomy entry will be created under the new name (or existing taxonomy if such exists) and the existing taxonomy will have a canonical reference to the new term.
 </aside>
 
 ### PUT Parameters
@@ -578,6 +577,171 @@ discipline[name] | Taxonomy name (optional)
 discipline[canonical_discipline_id] | ID of canonical taxonomy (optional)
 discipline[status] | Taxonomy status (optional)
 discipline[parent_relation][parent_discipline_id] | ID of parent taxonomy (optional)
-discipline[child_relation][inherit_children_from] | Inherit child taxonomies from specified taxonomy id (optional)
-discipline[child_relation][children][] | List of child taxonomy IDs (optional)
+
+
+
+## Rename Taxonomy
+
+```shell
+curl -X PUT -d "discipline[name]=Life studies" https://chroniclevitae.com/api/taxonomy/rename/3048"
+```
+
+> The above command attempts to update the term's name from 'Ancient anthropology' to 'Life studies'. A valid request returns JSON structured like this:
+
+```json
+{
+    "href": "http://127.0.0.1:3000/api/taxonomy/3036",
+    "results": [
+        {
+            "canonical_children": 0,
+            "total_users": 0,
+            "canonical_discipline_id": null,
+            "child_disciplines": [
+                {
+                    "canonical_discipline_id": null,
+                    "id": 3033,
+                    "name": "Egyptian hieroglyphics",
+                    "status": "pending"
+                }
+            ],
+            "id": 3048,
+            "name": "Life studies",
+            "parent_discipline": {
+                "canonical_discipline_id": null,
+                "id": 2,
+                "name": "Anthropology",
+                "status": "accepted"
+            },
+            "status": "accepted"
+        }
+    ],
+    "status": 200
+}
+
+```
+
+This endpoint is used to rename an existing term.
+
+### HTTP Request
+
+`PUT https://chroniclevitae.com/api/taxonomy/rename`
+
+<aside class="success">
+Successful requests will return HTTP status 200
+</aside>
+<aside class="warning">
+When renaming, a new taxonomy entry will be created under the new name (or existing taxonomy if such exists) and the existing taxonomy will have a canonical reference to the new term.
+</aside>
+<aside class="warning">
+Changes that affect only a term's capitalization imply force and will update the existing term rather than create a new term.
+</aside>
+
+### PUT Parameters
+
+Parameter | Description
+--------- | -----------
+discipline[name] | Taxonomy name (optional)
 force | Force an update to the existing term rather than create a new canonical term if users exist on term
+
+
+
+## Demote Taxonomy
+
+```shell
+curl -X PUT -d "discipline[canonical_discipline_id]=2654" https://chroniclevitae.com/api/taxonomy/demote/3048"
+```
+
+> The above command demotes a canonical term to non-canonical. A valid request returns JSON structured like this:
+
+```json
+{
+    "href": "http://127.0.0.1:3000/api/taxonomy/3036",
+    "results": [
+        {
+            "canonical_children": 0,
+            "total_users": 0,
+            "canonical_discipline_id": 2654,
+            "child_disciplines": [],
+            "id": 3048,
+            "name": "Life studies",
+            "parent_discipline": {},
+            "status": "accepted"
+        }
+    ],
+    "status": 200
+}
+
+```
+
+This endpoint is used to rename an existing term.
+
+### HTTP Request
+
+`PUT https://chroniclevitae.com/api/taxonomy/demote`
+
+<aside class="success">
+Successful requests will return HTTP status 200
+</aside>
+<aside class="warning">
+If the term has child disciplines those terms will be reassigned to the current term's parent discipline prior to demoting.
+</aside>
+<aside class="warning">
+Only mid-level terms can be demoted. If the term does have a parent discipline and has children a 422 error status will be returned.
+</aside>
+
+### PUT Parameters
+
+Parameter | Description
+--------- | -----------
+discipline[canonical_discipline_id] | ID of canonical discipline to point to
+
+
+## Promote Taxonomy
+
+```shell
+curl -X PUT -d "discipline[parent_relation][parent_discipline_id]=2" https://chroniclevitae.com/api/taxonomy/promote/3048"
+```
+
+> The above command promotes a non-canonical term to canonical. A valid request returns JSON structured like this:
+
+```json
+{
+    "href": "http://127.0.0.1:3000/api/taxonomy/3036",
+    "results": [
+        {
+            "canonical_children": 0,
+            "total_users": 0,
+            "canonical_discipline_id": nil,
+            "child_disciplines": [],
+            "id": 3048,
+            "name": "Life studies",
+            "parent_discipline": {
+                "canonical_discipline_id": null,
+                "id": 2,
+                "name": "Anthropology",
+                "status": "accepted"
+            },
+            "status": "accepted"
+        }
+    ],
+    "status": 200
+}
+
+```
+
+This endpoint is used to rename an existing term.
+
+### HTTP Request
+
+`PUT https://chroniclevitae.com/api/taxonomy/promote`
+
+<aside class="success">
+Successful requests will return HTTP status 200
+</aside>
+
+
+### PUT Parameters
+
+Parameter | Description
+--------- | -----------
+discipline[parent_relation][parent_discipline_id] | ID of parent discipline
