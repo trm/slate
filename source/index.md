@@ -17,11 +17,97 @@ search: true
 
 Welcome to ChronicleVitae's API documentation.
 
-Vitae uses oAuth to authenticate API requests. Users must authenticate their accounts and will recieve an oAuth access token which must be included with all requests. All responses are returned in JSON format.
+Vitae uses oAuth to authenticate API requests. Users must authenticate their accounts and will recieve an oAuth access token which must be included with all future requests. All responses are returned in JSON format.
+
+<aside class="info">
+Our latest API version is v2. All requests should include the header "Accept: application/vnd.vitae.v2"
+</aside>
 
 # Authentication
 
-oAuth authentication can be initiated at https://chroniclevitae.com/authorize followed by redirecting the user to https://chroniclevitae.com/application_login.
+All requests must include an access token which can be obtained via a 3-legged oAuth request.
+
+```shell
+curl "https://chroniclevitae.com/oauth/authorize?response_type=code& \
+      client_id=d08834fef4849a826a3434bceb5f000079a396f78dcb0b5deee4c2e02c6863c7& \
+      redirect_uri=https://partner-site.com/oauth_redirect& \
+      scope=user+document+dossier+lor& \
+      state=027d088bceb5f000079ac6863c3960b5deee4c2e33434f78dcb"
+```
+
+> The above command returns an HTTP 302 status, redirecting to the Vitae login page for user authentication. Following successful user authentication an HTTP 302 status will be returned, redirecting the user's browser to the previously specified partner redirect URI with an oAuth code:
+
+```code
+HTTP/1.1 302 Found
+Location: https://your-site.com/oauth_redirect?code=55af1845b26c8c442dde64bc4dfa870ebba779e371b333f27382e7ab814ac70d&state=21267c98-0fb0-48d9-ba93-c2fa9ce532b2
+Content-Type: text/html; charset=utf-8
+Cache-Control: no-cache
+X-Meta-Request-Version: 0.3.4
+X-Request-Id: a836e76d-e6c7-42e5-8fee-c48a071067f5
+X-Runtime: 0.065458
+Date: Wed, 11 Nov 2015 23:02:04 GMT
+Content-Length: 219
+Connection: Keep-Alive
+```
+
+```shell
+curl -X POST -d "grant_type=authorization_code" \
+             -d "client_id=d08834fef4849a826a3434bceb5f000079a396f78dcb0b5deee4c2e02c6863c7" \
+             -d "client_secret=26a3434bceb5f000079a396f78dcb0b5deee4c2e02c6863c7d08834fef4849a8"
+             -d "code=55af1845b26c8c442dde64bc4dfa870ebba779e371b333f27382e7ab814ac70d"
+             -d "redirect_uri=https://partner-site.com/oauth_redirect" \
+             "https://chroniclevitae.com/oauth/token"
+```
+
+> The above command completes the oAuth workflow and if successful, will return a JSON response with your access token:
+
+```json
+{
+    "access_token": "9e11b4c73ecda728c78792397622f917edb2f8ddca60dc27e10e75545d726b8f",
+    "created_at": 1447355423,
+    "expires_in": 43200,
+    "refresh_token": "1b6faef4f8064185ad313abb69e1c53d696a3d22e92e04e231c64186d6fb424f",
+    "scope": "user document dossier lor",
+    "token_type": "bearer"
+}
+
+```
+
+### Step 1 - oAuth Code Request
+
+`GET https://chroniclevitae.com/oauth/authorize?response_type=code&client_id=<client_id>&redirect_uri=<redirect_uri>&scope=<scopes>&state=<client_state>`
+
+### GET Parameters
+
+Parameter | Description
+--------- | -----------
+client_id | API client key
+redirect_uri | Partner's oauth redirect URI
+response_type | oAuth requested response type (code)
+scope | oAuth scopes (associated with your developer account during registration)
+state | Optional value to include in oAuth response for session tracking
+
+<aside class="success">
+A successful request will return an HTTP 302 status, redirecting to the Vitae login page for user authentication. Following successful user authentication an HTTP 302 status will be returned, redirecting the user’s browser to the previously specified partner redirect URI with an oAuth code.
+</aside>
+
+### Step 2 - oAuth Token Request
+
+`POST -d https://chroniclevitae.com/oauth/token`
+
+### POST Parameters
+
+Parameter | Description
+--------- | -----------
+client_id | API client key
+client_secret | API secret
+code | oAuth code returned in step 1
+grant_type | oAuth grant type requested (authorization_code)
+redirect_uri | Partner's oauth redirect URI
+
+<aside class="success">
+A successful request will return HTTP status 200 with a JSON response containing the oAuth access token.
+</aside>
 
 # Users
 
