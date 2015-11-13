@@ -20,7 +20,7 @@ Welcome to ChronicleVitae's API documentation.
 Vitae uses oAuth to authenticate API requests. Users must authenticate their accounts and will recieve an oAuth access token which must be included with all future requests. All responses are returned in JSON format.
 
 <aside class="info">
-Our latest API version is v2. All requests should include the header "Accept: application/vnd.vitae.v2"
+Our latest API version is v2. All API requests should include the header "Accept: application/vnd.vitae.v2"
 </aside>
 
 # Authentication
