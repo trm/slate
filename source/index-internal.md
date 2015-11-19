@@ -563,7 +563,7 @@ This endpoint is used to update attributes and relationships on an existing taxo
 
 ### HTTP Request
 
-`PUT https://chroniclevitae.com/api/taxonomy`
+`PUT https://chroniclevitae.com/api/taxonomy/<id>`
 
 <aside class="success">
 Successful requests will return HTTP status 200
@@ -583,14 +583,14 @@ discipline[parent_relation][parent_discipline_id] | ID of parent taxonomy (optio
 ## Rename Taxonomy
 
 ```shell
-curl -X PUT -d "discipline[name]=Life studies" https://chroniclevitae.com/api/taxonomy/rename/3048"
+curl -X PUT -d "discipline[name]=Life studies" https://chroniclevitae.com/api/taxonomy/3048/rename"
 ```
 
 > The above command attempts to update the term's name from 'Ancient anthropology' to 'Life studies'. A valid request returns JSON structured like this:
 
 ```json
 {
-    "href": "http://127.0.0.1:3000/api/taxonomy/3036",
+    "href": "http://127.0.0.1:3000/api/taxonomy/3048/rename",
     "results": [
         {
             "canonical_children": 0,
@@ -624,7 +624,7 @@ This endpoint is used to rename an existing term.
 
 ### HTTP Request
 
-`PUT https://chroniclevitae.com/api/taxonomy/rename`
+`PUT https://chroniclevitae.com/api/taxonomy/<id>/rename`
 
 <aside class="success">
 Successful requests will return HTTP status 200
@@ -648,14 +648,14 @@ force | Force an update to the existing term rather than create a new canonical 
 ## Demote Taxonomy
 
 ```shell
-curl -X PUT -d "discipline[canonical_discipline_id]=2654" https://chroniclevitae.com/api/taxonomy/demote/3048"
+curl -X PUT -d "discipline[canonical_discipline_id]=2654" https://chroniclevitae.com/api/taxonomy/3048/demote"
 ```
 
 > The above command demotes a canonical term to non-canonical. A valid request returns JSON structured like this:
 
 ```json
 {
-    "href": "http://127.0.0.1:3000/api/taxonomy/3036",
+    "href": "http://127.0.0.1:3000/api/taxonomy/3048/demote",
     "results": [
         {
             "canonical_children": 0,
@@ -677,7 +677,7 @@ This endpoint is used to rename an existing term.
 
 ### HTTP Request
 
-`PUT https://chroniclevitae.com/api/taxonomy/demote`
+`PUT https://chroniclevitae.com/api/taxonomy/<id>/demote`
 
 <aside class="success">
 Successful requests will return HTTP status 200
@@ -699,14 +699,14 @@ discipline[canonical_discipline_id] | ID of canonical discipline to point to
 ## Promote Taxonomy
 
 ```shell
-curl -X PUT -d "discipline[parent_relation][parent_discipline_id]=2" https://chroniclevitae.com/api/taxonomy/promote/3048"
+curl -X PUT -d "discipline[parent_relation][parent_discipline_id]=2" https://chroniclevitae.com/api/taxonomy/3048/promote"
 ```
 
 > The above command promotes a non-canonical term to canonical. A valid request returns JSON structured like this:
 
 ```json
 {
-    "href": "http://127.0.0.1:3000/api/taxonomy/3036",
+    "href": "http://127.0.0.1:3000/api/taxonomy/3048/promote",
     "results": [
         {
             "canonical_children": 0,
@@ -733,7 +733,7 @@ This endpoint is used to rename an existing term.
 
 ### HTTP Request
 
-`PUT https://chroniclevitae.com/api/taxonomy/promote`
+`PUT https://chroniclevitae.com/api/taxonomy/<id>/promote`
 
 <aside class="success">
 Successful requests will return HTTP status 200
