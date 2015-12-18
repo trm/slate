@@ -311,7 +311,7 @@ limit | Limit number of results (optional)
 offset | Offset to start listing results (optional)
 recursive | Boolean flag to recurse child disciplines (default false)
 status | Limit results to only [approved] or [pending] terms (optional)
-roots | Only return root level terms (default false)
+roots | Only return root level terms and the first level of children (default false)
 
 ## Get Taxonomy
 
