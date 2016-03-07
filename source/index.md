@@ -20,7 +20,7 @@ Welcome to ChronicleVitae's API documentation.
 Vitae uses oAuth to authenticate API requests. Users must authenticate their accounts and will recieve an oAuth access token which must be included with all future requests. All responses are returned in JSON format.
 
 <aside class="info">
-Our latest API version is v2. All API requests should include the header "Accept: application/vnd.vitae.v2"
+Our latest API version is v2 and all requests should be made to this version. All API requests should include the header "Accept: application/vnd.vitae.v2"
 </aside>
 
 # Authentication
@@ -114,7 +114,7 @@ A successful request will return HTTP status 200 with a JSON response containing
 ## Get User
 
 ```shell
-curl "https://chroniclevitae.com/api/users/self"
+curl -H "Accept: application/vnd.vitae.v2" "https://chroniclevitae.com/api/users/self"
 ```
 
 > The above command returns JSON structured like this:
@@ -134,21 +134,28 @@ curl "https://chroniclevitae.com/api/users/self"
                         {
                             "field_of_study": "Choral conducting",
                             "name": "Masters of Music Performance",
-                            "year": 2010
+                            "year": 2010,
+                            "id": 96634,
+                            "updated_at": "2016-03-04T10:34:13"
                         },
                         {
                             "field_of_study": "Voice",
                             "name": "Bachelor of Music Education",
-                            "year": 2013
+                            "year": 2013,
+                            "id": 96854,
+                            "updated_at": "2016-03-04T10:34:13"
                         }
                     ],
-                    "institution": "University of Maryland, College Park"
+                    "institution": "University of Maryland, College Park",
+                    "id": 22515,
+                    "updated_at": "2016-03-04T10:34:13"
                 }
             ],
             "display_name": "John Smith",
             "first_name": "John",
             "last_name": "Scott",
             "email": "jsmith@chronicle.com",
+            "user_url": "https://chroniclevitae.com/people/325874-john-smith/profile",
             "id": 9999999,
             "job_application_information_present": true,
             "job_application_questionnaire": {
@@ -163,9 +170,13 @@ curl "https://chroniclevitae.com/api/users/self"
             },
             "position_groups": [
                 {
+                    "id": 29938,
+                    "updated_at": "2016-03-04T10:34:13",
                     "employer": "Smith's School of Music",
                     "positions": [
                         {
+                            "id": 2593,
+                            "updated_at": "2016-03-04T10:34:13",
                             "end_month": 5,
                             "end_year": 2014,
                             "is_current": false,
@@ -176,9 +187,13 @@ curl "https://chroniclevitae.com/api/users/self"
                     ]
                 },
                 {
+                    "id": 33574,
+                    "updated_at": "2016-03-04T10:34:13",
                     "employer": "Johnstown College",
                     "positions": [
                         {
+                            "id": 11678,
+                            "updated_at": "2016-03-04T10:34:13",
                             "end_month": 5,
                             "end_year": 2014,
                             "is_current": false,
@@ -189,9 +204,13 @@ curl "https://chroniclevitae.com/api/users/self"
                     ]
                 },
                 {
+                    "id": 33524,
+                    "updated_at": "2016-03-04T10:34:13",
                     "employer": "Bocelli School of Music",
                     "positions": [
                         {
+                            "id": 38829,
+                            "updated_at": "2016-03-04T10:34:13",
                             "end_month": null,
                             "end_year": null,
                             "is_current": true,
@@ -204,6 +223,8 @@ curl "https://chroniclevitae.com/api/users/self"
             ],
             "references": [
                 {
+                    "id": 12984,
+                    "updated_at": "2016-03-04T10:34:13",
                     "first_name": "Jeff",
                     "last_name": "Bruns",
                     "email_address": "jbruns123@chronicle.com",
@@ -240,7 +261,7 @@ Successful requests will return HTTP status 200
 ## Get Dossier
 
 ```shell
-curl "https://chroniclevitae.com/api/dossier/self"
+curl -H "Accept: application/vnd.vitae.v2" "https://chroniclevitae.com/api/dossier/self"
 ```
 
 > The above command returns JSON structured like this:
@@ -417,7 +438,7 @@ Successful requests will return HTTP status 200
 This endpoint downloads a raw document from the user's dossier list
 
 ```shell
-curl "https://chroniclevitae.com/api/documents/<id>/download?access_token=<access_token>"
+curl -H "Accept: application/vnd.vitae.v2" "https://chroniclevitae.com/api/documents/<id>/download?access_token=<access_token>"
 ```
 
 ### HTTP Request
@@ -439,7 +460,7 @@ id | Document ID
 This endpoint uploads a multipart document into the user's dossier
 
 ```shell
-curl --form "document=@My_File_Upload.docx" --form "folder=9927" "https://chroniclevitae.com/api/documents/upload?access_token=<access_token>"
+curl -H "Accept: application/vnd.vitae.v2" --form "document=@My_File_Upload.docx" --form "folder=9927" "https://chroniclevitae.com/api/documents/upload?access_token=<access_token>"
 ```
 
 > The above command returns JSON structured like this:
@@ -484,7 +505,7 @@ folder_id | ID of folder to upload into (optional)
 This endpoint lists all recommendation letters for the authenticated user
 
 ```shell
-curl "https://chroniclevitae.com/api/recommendation_letters?access_token=<access_token>"
+curl -H "Accept: application/vnd.vitae.v2" "https://chroniclevitae.com/api/recommendation_letters?access_token=<access_token>"
 ```
 
 > The above command returns JSON structured like this:
@@ -498,14 +519,16 @@ curl "https://chroniclevitae.com/api/recommendation_letters?access_token=<access
             "title": "Recommendation letter from Dr. Jones",
             "filename": "Jones_Recommendation_Letter.docx20150727-138s9s6-1cfz5q0.docx",
             "download_url": "https://chroniclevitae.com/api/documents/9983264930/download",
-            "updated_at": "2015-07-27T13:23:49-04:00"
+            "updated_at": "2015-07-27T13:23:49-04:00",
+            "confidential": false
         },
         {
             "id": 883649378,
             "title": "Recommendation letter from Dr. Smith",
             "filename": "Smith_Recommendation_Letter.docx20150727-138s9s6-1cfz5q0.docx",
             "download_url": "https://chroniclevitae.com/api/documents/883649378/download",
-            "updated_at": "2015-07-29T11:14:12-04:00"
+            "updated_at": "2015-07-29T11:14:12-04:00",
+            "confidential": true
         }
     ],
     "status": 200
@@ -525,7 +548,7 @@ Successful requests will return HTTP status 200
 This endpoint downloads the specified recommendation letter for the authenticated user
 
 ```shell
-curl "https://chroniclevitae.com/api/recommendation_letters/<id>/download?access_token=<access_token>"
+curl -H "Accept: application/vnd.vitae.v2" "https://chroniclevitae.com/api/recommendation_letters/<id>/download?access_token=<access_token>"
 ```
 
 ### HTTP Request

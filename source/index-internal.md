@@ -689,7 +689,7 @@ If the term has child disciplines those terms will be reassigned to the term's p
 Parameter | Description
 --------- | -----------
 discipline[canonical_discipline_id] | ID of canonical discipline to point to
-
+discipline[status] | Update term's status (optional)
 
 ## Promote Taxonomy
 
@@ -743,6 +743,7 @@ If a parent discipline ID is not provided the term's canonical discipline will b
 Parameter | Description
 --------- | -----------
 discipline[parent_relation][parent_discipline_id] | ID of parent discipline (optional)
+discipline[status] | Update term's status (optional)
 
 
 ## Search Taxonomy
