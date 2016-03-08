@@ -860,9 +860,9 @@ Successful requests will return HTTP status 200
 
 Parameter | Description
 --------- | -----------
-term[name] | Name of term to be searched
-term[status] | Scope results to specified status [pending|accepted] (optional)
-term[order_by_count] | Order results by user count [true|false] (optional)
+term | Name of term to be searched
+status | Scope results to specified status [pending|accepted] (optional)
+order_by_count | Order results by user count [true|false] (optional)
 
 
 ## Taxonomy Parent List
