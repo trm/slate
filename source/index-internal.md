@@ -310,8 +310,10 @@ Parameter | Description
 limit | Limit number of results (optional)
 offset | Offset to start listing results (optional)
 recursive | Boolean flag to recurse child disciplines (default false)
-status | Limit results to only [approved] or [pending] terms (optional)
+status | Scope results by term's status [approved|pending] (optional)
 roots | Only return root level terms and the first level of children (default false)
+order_by_count | Order results by user count [true|false] (optional)
+
 
 ## Get Taxonomy
 
@@ -858,7 +860,9 @@ Successful requests will return HTTP status 200
 
 Parameter | Description
 --------- | -----------
-term | Name of term to be searched
+term[name] | Name of term to be searched
+term[status] | Scope results to specified status [pending|accepted] (optional)
+term[order_by_count] | Order results by user count [true|false] (optional)
 
 
 ## Taxonomy Parent List
