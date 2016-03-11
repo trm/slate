@@ -858,11 +858,13 @@ Successful requests will return HTTP status 200
 
 ### GET Parameters
 
-Parameter | Description
---------- | -----------
-term | Name of term to be searched
-status | Scope results to specified status [pending|accepted] (optional)
-order_by_count | Order results by user count [true|false] (optional)
+Parameter | Type | Required | Default | Description
+--------- | ---- | -------- | ------- | --------
+term | String | Y | | Name of term to be searched
+status | String| N | accepted | Scope results to specified status (pending/accepted)
+order_by_count | Boolean | N | false | Order results by user count
+roots | Boolean | false | Scope results to only root-level canonical terms
+canonical | Boolean | false | Scope results to only canonical terms
 
 
 ## Taxonomy Parent List
