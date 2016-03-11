@@ -864,7 +864,8 @@ term | String | Y | | Name of term to be searched
 status | String| N | accepted | Scope results to specified status (pending/accepted)
 order_by_count | Boolean | N | false | Order results by user count
 roots | Boolean | false | Scope results to only root-level canonical terms
-canonical | Boolean | false | Scope results to only canonical terms
+canonical | Boolean | nil | Scope results to only canonical terms
+rootpending | Boolean | false | Scope results to only root-level pending terms
 
 
 ## Taxonomy Parent List
